@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My link tree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-bg: #0a0a0a;
+      --secondary-bg: #111111;
+      --accent-gold: #d4af37;
+      --accent-violet: #8b5cf6;
+      --accent-teal: #14b8a6;
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1aa;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --shadow-glow: 0 0 30px rgba(212, 175, 55, 0.3);
+      --shadow-violet: 0 0 30px rgba(139, 92, 246, 0.3);
+      --shadow-teal: 0 0 30px rgba(20, 184, 166, 0.3);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--primary-bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .background-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--accent-gold);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    .particle:nth-child(2n) {
+      background: var(--accent-violet);
+      animation-delay: -2s;
+      animation-duration: 8s;
+    }
+    .particle:nth-child(3n) {
+      background: var(--accent-teal);
+      animation-delay: -4s;
+      animation-duration: 10s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-20px) rotate(120deg); }
+      66% { transform: translateY(10px) rotate(240deg); }
+    }
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .profile-section {
+      text-align: center;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease-out 0.2s forwards;
+    }
+    .profile-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid transparent;
+      background: linear-gradient(45deg, var(--accent-gold), var(--accent-violet), var(--accent-teal));
+      padding: 3px;
+      box-shadow: var(--shadow-glow);
+      transition: all 0.4s ease;
+    }
+    .profile-image:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-glow), var(--shadow-violet);
+    }
+    .profile-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      background: var(--secondary-bg);
+    }
+    .profile-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(45deg, var(--accent-gold), var(--accent-violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .profile-tagline {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease-out 0.4s forwards;
+    }
+    .social-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-size: 1.2rem;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .social-icon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    .social-icon:hover::before { left: 100%; }
+    .social-icon:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: var(--shadow-glow);
+      border-color: var(--accent-gold);
+    }
+    .links-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+   .link-button {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+
+  padding: 1.2rem 2rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+    .link-button:nth-child(1) { animation: fadeInUp 1s ease-out 0.6s forwards; }
+    .link-button:nth-child(2) { animation: fadeInUp 1s ease-out 0.8s forwards; }
+    .link-button:nth-child(3) { animation: fadeInUp 1s ease-out 1s forwards; }
+    .link-button:nth-child(4) { animation: fadeInUp 1s ease-out 1.2s forwards; }
+    .link-button:nth-child(5) { animation: fadeInUp 1s ease-out 1.4s forwards; }
+    .link-button::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(45deg, var(--accent-gold), var(--accent-violet), var(--accent-teal));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
+    .link-button::after {
+      content: '';
+      position: absolute;
+      top: 2px; left: 2px; right: 2px; bottom: 2px;
+      background: var(--primary-bg);
+      border-radius: 14px;
+      z-index: -1;
+      transition: all 0.4s ease;
+    }
+    .link-button:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+      border-color: var(--accent-gold);
+    }
+    .link-button:hover::before {
+      opacity: 1;
+    }
+    .link-button:hover .link-text {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    .link-icon {
+      margin-right: 0.75rem;
+      font-size: 1.1rem;
+    }
+    .footer {
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid var(--glass-border);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease-out 1.6s forwards;
+    }
+    .footer-text {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 300;
+    }
+    .footer-brand {
+      color: var(--accent-gold);
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .footer-brand:hover {
+      text-shadow: 0 0 10px var(--accent-gold);
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background-particles" id="particles"></div>
+  <div class="container">
+    <div class="profile-section">
+      <div class="profile-image">
+        <img src="https://i.pinimg.com/736x/b8/9f/25/b89f25a9e18e74b51e69947e6b55fb95.jpg" alt="Profile Picture">
+      </div>
+      <h1 class="profile-name">@danzX crash</h1>
+      <p class="profile-tagline"> Welcome
+    Digital Creator by @danzX 2025
+      </p>
+    </div>
+
+    <div class="links-section">
+      <a href="https://wa.me/6283891694228" class="link-button">
+        <span class="link-icon"></span><span class="link-text">Whatsaap</span>
+      </a>
+      <a href="https://tiktok.com/@danzhosting_01" class="link-button">
+        <span class="link-icon"></span
+        ><span class="link-text">
+          
+     TikTok</span>
+      </a>
+      <a href="https://t.me/danzXcrash" class="link-button">
+        <span class="link-icon"></span><span class="link-text">Telegram</span>
+      </a>
+      <a href="https://chat.whatsapp.com/DufJBdTxI1q89tfFcoo4mB?mode=ac_t" class="link-button">
+        <span class="link-icon"></span><span class="link-text">Join Grub Belajar Coding bersama</span></span>
+      </a>
+      <a href="https://chat.whatsapp.com/CvB1L3lWOOp5p6epBOaNjC?mode=ac_t" class="link-button">
+        <span class="link-icon"></span><span class="link-text">Grub Murband Free</span>
+      </a>
+    </div>
+
+<div class="social-section">
+            <div class="social-icons">
+                <!-- Tambah atau edit link ke sosial media -->
+                <!-- Instagram -->
+                <a href="https://t.me/danzXcrash" class="social-icon" title="Instagram">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram">
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                  </svg>
+                </a>
+
+                <!-- Twitter (X) -->
+                <a href="#" class="social-icon" title="Twitter">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter">
+                    <path d="M22 4.01c-.77.34-1.6.57-2.47.67a4.3 4.3 0 0 0 1.88-2.38c-.84.5-1.76.86-2.75 1.05a4.28 4.28 0 0 0-7.33 3.9A12.13 12.13 0 0 1 3 3.16a4.28 4.28 0 0 0 1.32 5.71A4.25 4.25 0 0 1 2.8 8v.05a4.28 4.28 0 0 0 3.43 4.2 4.3 4.3 0 0 1-1.92.07 4.29 4.29 0 0 0 4 2.97A8.59 8.59 0 0 1 2 18.58a12.07 12.07 0 0 0 6.56 1.92c7.88 0 12.2-6.53 12.2-12.2 0-.19 0-.39-.01-.58A8.72 8.72 0 0 0 24 4.59a8.56 8.56 0 0 1-2.5.69z" />
+                  </svg>
+                </a>
+
+                <!-- YouTube -->
+                <a href="#" class="social-icon" title="YouTube">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-youtube">
+                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.96-1.96C18.88 4 12 4 12 4s-6.88 0-8.58.46a2.78 2.78 0 0 0-1.96 1.96C1 8.12 1 12 1 12s0 3.88.46 5.58a2.78 2.78 0 0 0 1.96 1.96C5.12 20 12 20 12 20s6.88 0 8.58-.46a2.78 2.78 0 0 0 1.96-1.96C23 15.88 23 12 23 12s0-3.88-.46-5.58z" />
+                    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" />
+                  </svg>
+                </a>
+
+                <!-- TikTok -->
+                <a href="#" class="social-icon" title="TikTok">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-music-2">
+                    <path d="M9 18V5l12-2v13" />
+                    <circle cx="6" cy="18" r="3" />
+                    <circle cx="18" cy="16" r="3" />
+                  </svg>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+      <p class="footer-text">
+        © 2025 Crafted with excellence by 
+        <a href="#" class="footer-brand">danzX</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
